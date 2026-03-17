@@ -1,0 +1,97 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+package Model {
+class Product
+class Order
+class OrderItem
+class Reteta
+class IngredientReteta
+class Stoc
+enum TipBautura << enumeration >>
+enum CategorieBautura << enumeration >>
+}
+
+package Repository {
+interface Repository<ID, E> << interface >>
+abstract class AbstractRepository<ID, E>
+class FileAbstractRepository<ID, E>
+class FileProductRepository
+class FileOrderRepository
+class FileRetetaRepository
+class FileStocRepository
+}
+
+package Validator {
+interface Validator<T> << interface >>
+class ProductValidator
+class OrderValidator
+class OrderItemValidator
+class RetetaValidator
+class StocValidator
+class ValidationException
+}
+
+package Service {
+class ProductService
+class OrderService
+class RetetaService
+class StocService
+class DailyReportService
+class DrinkShopService
+class ReceiptGenerator
+class CsvExporter
+}
+
+package UI_Controller {
+class DrinkShopController
+class DrinkShopApp
+}
+
+AbstractRepository .up.|> Repository
+FileAbstractRepository -up-|> AbstractRepository
+FileProductRepository -up-|> FileAbstractRepository
+FileOrderRepository -up-|> FileAbstractRepository
+FileRetetaRepository -up-|> FileAbstractRepository
+FileStocRepository -up-|> FileAbstractRepository
+
+ProductValidator .up.|> Validator
+OrderValidator .up.|> Validator
+OrderItemValidator .up.|> Validator
+RetetaValidator .up.|> Validator
+StocValidator .up.|> Validator
+
+ProductService "1" *--> "repo" Repository
+ProductService "1" *--> "validator" ProductValidator
+
+OrderService "1" *--> "repo" Repository
+OrderService "1" *--> "validator" OrderValidator
+
+RetetaService "1" *--> "repo" Repository
+RetetaService "1" *--> "validator" RetetaValidator
+
+StocService "1" *--> "repo" Repository
+StocService "1" *--> "validator" StocValidator
+
+DrinkShopService "1" *--> "productService" ProductService
+DrinkShopService "1" *--> "orderService" OrderService
+DrinkShopService "1" *--> "retetaService" RetetaService
+DrinkShopService "1" *--> "stocService" StocService
+DrinkShopService "1" *--> "report" DailyReportService
+
+DailyReportService "1" *--> "exporter" CsvExporter
+OrderService "1" *--> "receipt" ReceiptGenerator
+
+DrinkShopController "1" *--> "service" DrinkShopService
+DrinkShopApp --> DrinkShopController
+
+Product "1" *--> "tip" TipBautura
+Product "1" *--> "categorie" CategorieBautura
+Order "1" *--> "items" OrderItem
+OrderItem "1" *--> "product" Product
+Reteta "1" *--> "ingrediente" IngredientReteta
+
+@enduml
