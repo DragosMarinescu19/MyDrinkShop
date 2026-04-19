@@ -27,11 +27,18 @@ public class ProductService {
         validator.validate(updated);
         productRepo.update(updated);
     }
-    public Product getProductByName(String name){
-        List<Product> products=getAllProducts();
-        for (Product p :products){
-            if(p.getNume().contains(name))
-                return p;
+    public Product getProductByName(String name, Double maxPrice, String category){
+        if (name == null || name.length() < 2) { // Predicat 1
+            return null;}
+        List<Product> products = getAllProducts();
+        for (Product p : products) { //Pred 2
+            if (p.getPret() <= maxPrice) { // Pred 3
+                if (p.getCategorie().name().equals(category)) { //Pred 4
+                    if (p.getNume().contains(name)) { // Pred 5
+                        return p;
+                    }
+                }
+            }
         }
         return null;
     }

@@ -38,8 +38,8 @@ public class DrinkShopService {
         productService.updateProduct(id, name, price, categorie, tip);
     }
 
-    public Product getProductByName(String name){
-        return productService.getProductByName(name);
+    public Product getProductByName(String name,Double price,String category){
+        return productService.getProductByName(name,price,category);
     }
 
     public void deleteProduct(int id) {

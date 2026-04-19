@@ -5,11 +5,13 @@ import drinkshop.service.DrinkShopService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 public class DrinkShopController {
@@ -23,7 +25,10 @@ public class DrinkShopController {
     @FXML private TableColumn<Product, Double> colProdPrice;
     @FXML private TableColumn<Product, CategorieBautura> colProdCategorie;
     @FXML private TableColumn<Product, TipBautura> colProdTip;
-    @FXML private TextField txtProdName, txtProdPrice;
+    @FXML private TextField txtProdName;
+    @FXML private TextField txtProdPrice;
+    @FXML private TextField txtProdNameFilter,txtProdPriceFilter;
+
     @FXML private ComboBox<CategorieBautura> comboProdCategorie;
     @FXML private ComboBox<TipBautura> comboProdTip;
 
@@ -164,6 +169,12 @@ public class DrinkShopController {
         productList.setAll(service.filtreazaDupaTip(comboProdTip.getValue()));
     }
 
+    //Aded in lab03
+    @FXML
+    public void onProductSearch() {
+        productList.setAll(service.getProductByName(txtProdNameFilter.getText(),Double.parseDouble(txtProdPriceFilter.getText()), String.valueOf(comboProdCategorie.getValue())));
+    }
+
     // ---------- RETETA NOUA ----------
     @FXML
     private void onAddNewIngred() {
@@ -256,4 +267,5 @@ public class DrinkShopController {
         Alert alert = new Alert(Alert.AlertType.ERROR, msg, ButtonType.OK);
         alert.showAndWait();
     }
+
 }
