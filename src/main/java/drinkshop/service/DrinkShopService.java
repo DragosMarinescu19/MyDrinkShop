@@ -38,6 +38,10 @@ public class DrinkShopService {
         productService.updateProduct(id, name, price, categorie, tip);
     }
 
+    public Product getProductByName(String name){
+        return productService.getProductByName(name);
+    }
+
     public void deleteProduct(int id) {
         productService.deleteProduct(id);
     }

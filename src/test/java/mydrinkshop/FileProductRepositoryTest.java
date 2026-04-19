@@ -4,6 +4,7 @@ import drinkshop.domain.CategorieBautura;
 import drinkshop.domain.Product;
 import drinkshop.domain.TipBautura;
 import drinkshop.repository.file.FileAbstractRepository;
+import drinkshop.service.ProductService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +31,7 @@ class FileProductRepositoryTest {
     private static Path tempDir;
     private Path testFile;
     private TestableFileProductRepository repo;
+    ProductService service = new ProductService(repo);
 
     @BeforeAll
     static void setupSuite() throws IOException {
@@ -128,7 +130,7 @@ class FileProductRepositoryTest {
     class BvaTests {
 
         @Test
-        @DisplayName("Invalid: id la limita inferioara (0)")
+        @DisplayName("Valid: id la limita inferioara (0)")
         @Tag("bva")
         void shouldHandleIdBoundaryZero() {
             // Arrange

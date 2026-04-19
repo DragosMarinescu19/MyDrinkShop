@@ -27,6 +27,14 @@ public class ProductService {
         validator.validate(updated);
         productRepo.update(updated);
     }
+    public Product getProductByName(String name){
+        List<Product> products=getAllProducts();
+        for (Product p :products){
+            if(p.getNume().contains(name))
+                return p;
+        }
+        return null;
+    }
 
     public void deleteProduct(int id) {
         productRepo.delete(id);
