@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @DisplayName("ProductService.updateProduct - ECP & BVA")
 @Tag("unit")
@@ -33,6 +35,16 @@ class ProductServiceTest {
                 Arguments.of("IV: nume invalid, pret valid", "", 14.5, false, "Numele nu poate fi gol!"),
                 Arguments.of("VI: nume valid, pret invalid", "Latte", 0.0, false, "Pret invalid!"),
                 Arguments.of("II: nume invalid, pret invalid", "   ", -2.0, false, "Numele nu poate fi gol!|Pret invalid!")
+        );
+    }
+
+    private static Stream<Arguments> wbtCases() {
+        return Stream.of(
+                Arguments.of("Path 1-2: input invalid, name = null", null, 0.0, null, false, false),
+                Arguments.of("Path 1-3-4-10: lista goala", "apa", 10.0, "WATER", false, false),
+                Arguments.of("Path 1-3-4-5(F)...: pret invalid/prea mare", "apa", 1.0, "WATER", true, false),
+                Arguments.of("Path 1-3-4-5(T)-6(F)...: categorie diferita", "apa", 50.0, "TEA", true, false),
+                Arguments.of("Path 1-3-4-5(T)-6(T)-7(T)-8: produs gasit cu succes", "apa", 50.0, "WATER", true, true)
         );
     }
 
@@ -150,6 +162,45 @@ class ProductServiceTest {
         }
     }
 
+    @Nested
+    @DisplayName("WBT")
+    class WbtTests {
+
+        @ParameterizedTest(name = "{0}")
+        @MethodSource("mydrinkshop.ProductServiceTest#wbtCases")
+        @Tag("wbt")
+        void shouldSearchProductByWbtPaths(String caseName,
+                                           String searchName,
+                                           Double searchPrice,
+                                           String searchCategory,
+                                           boolean populateRepo,
+                                           boolean expectedFound) {
+            InMemoryProductRepository repo = new InMemoryProductRepository();
+            ProductService service = new ProductService(repo);
+
+            if (populateRepo) {
+                repo.save(new Product(
+                        2,
+                        "apa",
+                        10.0,
+                        CategorieBautura.WATER,
+                        TipBautura.WATER_BASED
+                ));
+            }
+
+            Product result = service.getProductByName(searchName, searchPrice, searchCategory);
+
+            // Assert
+            if (expectedFound) {
+                assertNotNull(result, "Ar fi trebuit sa gaseasca produsul pe path-ul de succes");
+                assertEquals("apa", result.getNume());
+                assertEquals(10.0, result.getPret());
+            } else {
+                assertNull(result, "Ar fi trebuit sa returneze null conform CGF");
+            }
+        }
+    }
+
     private record TestContext(ProductService service, InMemoryProductRepository repo) {
     }
 
@@ -159,5 +210,7 @@ class ProductServiceTest {
             return entity.getId();
         }
     }
+
+
 }
 
