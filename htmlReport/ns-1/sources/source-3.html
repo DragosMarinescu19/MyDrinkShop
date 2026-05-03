@@ -1,0 +1,194 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ProductService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">drinkshop.service</a>
+</div>
+
+<h1>Coverage Summary for Class: ProductService (drinkshop.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ProductService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    44.4%
+  </span>
+  <span class="absValue">
+    (4/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (10/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    57.1%
+  </span>
+  <span class="absValue">
+    (16/28)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package drinkshop.service;
+&nbsp;
+&nbsp;import drinkshop.domain.*;
+&nbsp;import drinkshop.repository.Repository;
+&nbsp;import drinkshop.service.validator.ProductValidator;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;public class ProductService {
+&nbsp;
+&nbsp;    private final Repository&lt;Integer, Product&gt; productRepo;
+&nbsp;    private final ProductValidator validator;
+&nbsp;
+<b class="fc">&nbsp;    public ProductService(Repository&lt;Integer, Product&gt; productRepo) {</b>
+<b class="fc">&nbsp;        this.productRepo = productRepo;</b>
+<b class="fc">&nbsp;        this.validator = new ProductValidator();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void addProduct(Product p) {
+<b class="nc">&nbsp;        validator.validate(p);</b>
+<b class="nc">&nbsp;        productRepo.save(p);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void updateProduct(int id, String name, double price, CategorieBautura categorie, TipBautura tip) {
+<b class="fc">&nbsp;        Product updated = new Product(id, name, price, categorie, tip);</b>
+<b class="fc">&nbsp;        validator.validate(updated);</b>
+<b class="fc">&nbsp;        productRepo.update(updated);</b>
+&nbsp;    }
+&nbsp;    public Product getProductByName(String name, Double maxPrice, String category){
+<b class="pc">&nbsp;        if (name == null || name.length() &lt; 2) { // Predicat 1</b>
+<b class="fc">&nbsp;            return null;}</b>
+<b class="fc">&nbsp;        List&lt;Product&gt; products = getAllProducts();</b>
+<b class="fc">&nbsp;        for (Product p : products) { //Pred 2</b>
+<b class="fc">&nbsp;            if (p.getPret() &lt;= maxPrice) { // Pred 3</b>
+<b class="fc">&nbsp;                if (p.getCategorie().name().equals(category)) { //Pred 4</b>
+<b class="pc">&nbsp;                    if (p.getNume().contains(name)) { // Pred 5</b>
+<b class="fc">&nbsp;                        return p;</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void deleteProduct(int id) {
+<b class="nc">&nbsp;        productRepo.delete(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Product&gt; getAllProducts() {
+&nbsp;//        Iterable&lt;Product&gt; it=productRepo.findAll();
+&nbsp;//        ArrayList&lt;Product&gt; products=new ArrayList&lt;&gt;();
+&nbsp;//        it.forEach(products::add);
+&nbsp;//        return products;
+&nbsp;
+&nbsp;//        return StreamSupport.stream(productRepo.findAll().spliterator(), false)
+&nbsp;//                    .collect(Collectors.toList());
+<b class="fc">&nbsp;        return productRepo.findAll();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Product findById(int id) {
+<b class="nc">&nbsp;        return productRepo.findOne(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Product&gt; filterByCategorie(CategorieBautura categorie) {
+<b class="nc">&nbsp;        if (categorie == CategorieBautura.ALL) return getAllProducts();</b>
+<b class="nc">&nbsp;        return getAllProducts().stream()</b>
+<b class="nc">&nbsp;                .filter(p -&gt; p.getCategorie() == categorie)</b>
+<b class="nc">&nbsp;                .collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Product&gt; filterByTip(TipBautura tip) {
+<b class="nc">&nbsp;        if (tip == TipBautura.ALL) return getAllProducts();</b>
+<b class="nc">&nbsp;        return getAllProducts().stream()</b>
+<b class="nc">&nbsp;                .filter(p -&gt; p.getTip() == tip)</b>
+<b class="nc">&nbsp;                .collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-04-21 23:43</div>
+</div>
+</body>
+</html>

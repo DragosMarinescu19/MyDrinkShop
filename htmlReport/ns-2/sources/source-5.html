@@ -1,0 +1,146 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > StocValidator</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">drinkshop.service.validator</a>
+</div>
+
+<h1>Coverage Summary for Class: StocValidator (drinkshop.service.validator)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">StocValidator</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package drinkshop.service.validator;
+&nbsp;
+&nbsp;import drinkshop.domain.Stoc;
+&nbsp;
+<b class="nc">&nbsp;public class StocValidator implements Validator&lt;Stoc&gt; {</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void validate(Stoc stoc) {
+&nbsp;
+<b class="nc">&nbsp;        String errors = &quot;&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        if (stoc.getId() &lt;= 0)</b>
+<b class="nc">&nbsp;            errors += &quot;ID invalid!\n&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        if (stoc.getIngredient() == null || stoc.getIngredient().isBlank())</b>
+<b class="nc">&nbsp;            errors += &quot;Ingredient invalid!\n&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        if (stoc.getCantitate() &lt; 0)</b>
+<b class="nc">&nbsp;            errors += &quot;Cantitate negativa!\n&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        if (stoc.getStocMinim() &lt; 0)</b>
+<b class="nc">&nbsp;            errors += &quot;Stoc minim negativ!\n&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        if (stoc.getCantitate() &lt; stoc.getStocMinim())</b>
+<b class="nc">&nbsp;            errors += &quot;Cantitatea este sub stocul minim!\n&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        if (!errors.isEmpty())</b>
+<b class="nc">&nbsp;            throw new ValidationException(errors);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-04-21 23:43</div>
+</div>
+</body>
+</html>

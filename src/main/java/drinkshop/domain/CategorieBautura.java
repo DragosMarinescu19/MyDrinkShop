@@ -12,5 +12,7 @@ public enum CategorieBautura {
     JUICE,
     SMOOTHIE,
 
+    WATER,
+
     ALL
 }
