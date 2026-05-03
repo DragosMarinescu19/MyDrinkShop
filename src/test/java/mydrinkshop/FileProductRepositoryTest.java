@@ -31,7 +31,7 @@ class FileProductRepositoryTest {
     private static Path tempDir;
     private Path testFile;
     private TestableFileProductRepository repo;
-    ProductService service = new ProductService(repo);
+    ProductService service = new ProductService(repo,null);
 
     @BeforeAll
     static void setupSuite() throws IOException {

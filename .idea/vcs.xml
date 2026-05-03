@@ -8,5 +8,6 @@
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/MyDrinkShop-Mockito/MyDrinkShop" vcs="Git" />
   </component>
 </project>

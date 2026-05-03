@@ -38,7 +38,7 @@ class ProductServiceTest {
 
     private static TestContext createContext() {
         InMemoryProductRepository repo = new InMemoryProductRepository();
-        ProductService service = new ProductService(repo);
+        ProductService service = new ProductService(repo,null);
 
         repo.save(new Product(
                 EXISTING_ID,

@@ -22,7 +22,7 @@ public class DrinkShopService {
             Repository<Integer, Reteta> retetaRepo,
             Repository<Integer, Stoc> stocService
     ) {
-        this.productService = new ProductService(productRepo);
+        this.productService = new ProductService(productRepo,null);
         this.orderService = new OrderService(orderRepo, productRepo);
         this.retetaService = new RetetaService(retetaRepo);
         this.stocService = new StocService(stocService);
