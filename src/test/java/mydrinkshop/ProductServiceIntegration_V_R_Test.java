@@ -37,7 +37,6 @@ class ProductServiceIntegration_V_R_Test {
 
     @AfterEach
     void tearDown() throws IOException {
-        // Ștergem fișierul de test după rulare ca să nu lăsăm gunoi
         Files.deleteIfExists(Path.of(TEST_FILE));
     }
 

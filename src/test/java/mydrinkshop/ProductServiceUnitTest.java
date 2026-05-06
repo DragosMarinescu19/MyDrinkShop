@@ -29,7 +29,7 @@ class ProductServiceUnitTest {
 
     @BeforeEach
     void setUp() {
-        // Inițializează mock-urile și le injectează în service
+        // Initializeaza mock-urile si le injecteaza în service
         MockitoAnnotations.initMocks(this);
     }
 
@@ -41,9 +41,9 @@ class ProductServiceUnitTest {
 
         service.addProduct(validProduct);
 
-        // Verificăm dacă validatorul a fost apelat o singură dată
+        // Verificam dacaf validatorul a fost apelat o singura data
         verify(validator, times(1)).validate(validProduct);
-        // Verificăm dacă metoda save din repository a fost apelată o singură dată
+        // Verificam daca metoda save din repository a fost apelata o singura data
         verify(productRepo, times(1)).save(validProduct);
     }
 
@@ -52,7 +52,7 @@ class ProductServiceUnitTest {
         // Arrange
         Product invalidProduct = new Product(-1, "", -5.0,CLASSIC_COFFEE,WATER_BASED);
 
-        // Definim comportamentul: Validatorul aruncă excepție pentru produs invalid
+        // Definim comportamentul: Validatorul arunca exceptie pentru produs invalid
         doThrow(new ValidationException("ID invalid!\nNumele nu poate fi gol!\nPret invalid!\n"))
                 .when(validator).validate(invalidProduct);
 
@@ -62,7 +62,7 @@ class ProductServiceUnitTest {
 
         assertTrue(exception.getMessage().contains("ID invalid!"));
 
-        // Ne asigurăm că repository-ul NU a fost atins dacă validarea a picat
+        // Ne asiguram ca repository-ul NU a fost atins daca validarea a picat
         verify(validator, times(1)).validate(invalidProduct);
         verify(productRepo, never()).save(any(Product.class));
     }

@@ -16,7 +16,7 @@ import static org.mockito.Mockito.*;
 class ProductServiceIntegration_V_Test {
 
     @Mock
-    private Repository<Integer, Product> productRepo; // Rămâne Mock
+    private Repository<Integer, Product> productRepo; // Ramâne Mock
 
     private ProductValidator realValidator; // Devine Real
     private ProductService service;
@@ -25,17 +25,16 @@ class ProductServiceIntegration_V_Test {
     void setUp() {
         MockitoAnnotations.initMocks(this);
         realValidator = new ProductValidator();
-        service = new ProductService(productRepo, realValidator); // Injectare manuală
+        service = new ProductService(productRepo, realValidator); // Injectare manuala
     }
 
     @Test
     void testAddProduct_IntegrationV_ValidProduct() {
         Product p = new Product(1, "Fanta", 6.0, null, null);
 
-        // Logica reală din ProductValidator va rula
         service.addProduct(p);
 
-        // Ne asigurăm că a ajuns la Repo
+        // Ne asiguram ca a ajuns la Repo
         verify(productRepo, times(1)).save(p);
     }
 
@@ -44,7 +43,7 @@ class ProductServiceIntegration_V_Test {
         // Produs cu nume gol
         Product p = new Product(2, "", 5.0, null, null);
 
-        // Validatorul real trebuie să crape
+        // Validatorul real trebuie sa crape
         ValidationException ex = assertThrows(ValidationException.class, () -> {
             service.addProduct(p);
         });
